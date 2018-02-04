@@ -92,3 +92,75 @@ interface ERC721 {
     /// @param _deedId The deed that is being transferred
     function takeOwnership(uint256 _deedId) external payable;
 }
+
+http/// @title Metadata extension to ERC-721 interface
+/// @author William Entriken (https://phor.net)
+/// @dev Specification at https://github.com/ethereum/eips/issues/XXXX
+interface ERC721Metadata {
+
+    /// @dev ERC-165 (draft) interface signature for ERC721
+    // bytes4 internal constant INTERFACE_SIGNATURE_ERC721Metadata = // 0x2a786f11
+    //     bytes4(keccak256('name()')) ^
+    //     bytes4(keccak256('symbol()')) ^
+    //     bytes4(keccak256('deedUri(uint256)'));
+
+    /// @notice A descriptive name for a collection of deeds managed by this
+    ///  contract
+    /// @dev Wallets and exchanges MAY display this to the end user.
+    function name() public pure returns (string _name);
+
+    /// @notice An abbreviated name for deeds managed by this contract
+    /// @dev Wallets and exchanges MAY display this to the end user.
+    function symbol() public pure returns (string _symbol);
+
+    /// @notice A distinct name for a deed managed by this contract
+    /// @dev Wallets and exchanges MAY display this to the end user.
+    function deedName(uint256 _deedId) public pure returns (string _deedName);
+
+    /// @notice A distinct URI (RFC 3986) for a given token.
+    /// @dev If:
+    ///  * The URI is a URL
+    ///  * The URL is accessible
+    ///  * The URL points to a valid JSON file format (ECMA-404 2nd ed.)
+    ///  * The JSON base element is an object
+    ///  then these names of the base element SHALL have special meaning:
+    ///  * "name": A string identifying the item to which `_deedId` grants
+    ///    ownership
+    ///  * "description": A string detailing the item to which `_deedId` grants
+    ///    ownership
+    ///  * "image": A URI pointing to a file of image/* mime type representing
+    ///    the item to which `_deedId` grants ownership
+    ///  Wallets and exchanges MAY display this to the end user.
+    ///  Consider making any images at a width between 320 and 1080 pixels and
+    ///  aspect ratio between 1.91:1 and 4:5 inclusive.
+    function deedUri(uint256 _deedId) external view returns (string _deedUri);
+}
+
+/// @title Enumeration extension to ERC-721 interface
+/// @author William Entriken (https://phor.net)
+/// @dev Specification at https://github.com/ethereum/eips/issues/XXXX
+interface ERC721Enumerable {
+
+    /// @dev ERC-165 (draft) interface signature for ERC721
+    // bytes4 internal constant INTERFACE_SIGNATURE_ERC721Enumerable = // 0xa5e86824
+    //     bytes4(keccak256('deedByIndex()')) ^
+    //     bytes4(keccak256('countOfOwners()')) ^
+    //     bytes4(keccak256('ownerByIndex(uint256)'));
+
+    /// @notice Enumerate active deeds
+    /// @dev Throws if `_index` >= `countOfDeeds()`
+    /// @param _index A counter less than `countOfDeeds()`
+    /// @return The identifier for the `_index`th deed, (sort order not
+    ///  specified)
+    function deedByIndex(uint256 _index) external view returns (uint256 _deedId);
+
+    /// @notice Count of owners which own at least one deed
+    /// @return A count of the number of owners which own deeds
+    function countOfOwners() external view returns (uint256 _count);
+
+    /// @notice Enumerate owners
+    /// @dev Throws if `_index` >= `countOfOwners()`
+    /// @param _index A counter less than `countOfOwners()`
+    /// @return The address of the `_index`th owner (sort order not specified)
+    function ownerByIndex(uint256 _index) external view returns (address _owner);
+}
