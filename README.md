@@ -1,4 +1,4 @@
-# ethereum-receipt-proposals
+# Ethereum Receipt Proposals
 Smart contracts that might act as receipt standards
 
 # JSON Proposals for Temporary Receipts
